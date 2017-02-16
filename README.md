@@ -12,8 +12,8 @@ It:
 ### Why
 
 - It is easier to write `dru mix test` than `docker-compose exec app mix test`
-- It is annoying to always manually run `docker-sync-stack up` in separated console.
-- It is annoying to have separated console just for docker-sync
+- It is annoying to always manually run `docker-sync-stack start` in separated console.
+- It is annoying to have separate console just for docker-sync
 - Because docker-sync 0.2.0 introduced background mode
 
 ## Install
