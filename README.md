@@ -10,6 +10,13 @@ It:
 
 ## Install
 
+If you don't have docker-sync 0.2 install it with script below. Make sure you are using system RVM if you use RVM:
+```
+git clone -b release/0.2.0 https://github.com/EugenMayer/docker-sync
+cd docker-sync
+sudo ./deploy_locally.sh
+```
+
 Run this to add `dru` to your `/usr/local/bin`
 ```
 sudo ./install.sh
