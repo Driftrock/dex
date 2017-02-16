@@ -24,7 +24,11 @@ if [ -z "$CONTAINER_RUNS_TEST" ]; then
 	docker-sync start -d
 
 	# start docker-compose if it is not running
-	docker-compose up -d
+	if [ -f docker-compose.override.yml ]; then
+		docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+	else
+		docker-compose up -d
+	fi
 fi
 
 # Run it using docker instead of docker-compose as it is much faster to bootstrap
