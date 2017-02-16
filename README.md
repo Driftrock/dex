@@ -1,12 +1,20 @@
 # dru
-Small tool that with docker-sync 2 runs command in your container with just `dru command`
 
-## Why
+_Starts docker-sync and docker-compose in background if not running yet and exec your command with `dru command`_
+
+## What
 
 It:
 - Checks if docker-sync and docker-compose is running
 - If yes it runs command in `docker exec` (which is much faster than `docker-compose exec`)
 - If not it starts `docker-sync` in background and `docker-compose up` in background
+
+## Why
+
+- It is easier to write `dru mix test` than `docker-compose exec app mix test`
+- It is annoying to always manually run `docker-sync-stack up` in separated console.
+- It is annoying to have separated console just for docker-sync
+- Because docker-sync 0.2.0 introduced background mode
 
 ## Install
 
