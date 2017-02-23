@@ -14,7 +14,7 @@ if [ -z "$SERVICE_NAME" ]; then
 fi
 
 # Lets assume the default project name derivated from dir name
-COMPOSE_CONTAINER_NAME=$(basename $(pwd) | tr -d '[-_]')_${SERVICE_NAME}_1
+COMPOSE_CONTAINER_NAME=$(basename $(pwd) | tr -d '[\-_]')_${SERVICE_NAME}_1
 
 CONTAINER_RUNS_TEST=$(docker ps -q -f name=$COMPOSE_CONTAINER_NAME)
 if [ -z "$CONTAINER_RUNS_TEST" ]; then
