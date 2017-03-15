@@ -16,12 +16,24 @@ fi
 # Lets assume the default project name derivated from dir name
 COMPOSE_CONTAINER_NAME=$(basename $(pwd) | tr -d '[\-_]')_${SERVICE_NAME}_1
 
+# CHECK DOCKER-SYNC RUNNING
+DOCKER_SYNC_PID=$(cat .docker-sync/daemon.pid 2> /dev/null)
+if ( [ -z "$DOCKER_SYNC_PID" ] || ! kill -0 $DOCKER_SYNC_PID ); then
+	echo "Docker-sync is not running."
+	echo "Starting 'docker-sync' in background..."
+	DOCKER_SYNC_VERSION=$(docker-sync -v)
+
+	if ! ( echo $DOCKER_SYNC_VERSION | fgrep '0.2.' > /dev/null ); then
+		echo "ERROR: Docker-sync version $DOCKER_SYNC_VERSION is not supported! Please install docker-sync 0.2.*."
+		exit 1
+	fi
+	docker-sync start -d
+fi
+
+# CHECK DOCKER CONTAINER RUNNNING
 CONTAINER_RUNS_TEST=$(docker ps -q -f name=$COMPOSE_CONTAINER_NAME)
 if [ -z "$CONTAINER_RUNS_TEST" ]; then
-	echo "Container $COMPOSE_CONTAINER_NAME not running... Starting docker-sync and docker-compose"
-
-	# start sync always - it just fails if it is already running
-	docker-sync start -d
+	echo "Container $COMPOSE_CONTAINER_NAME not running... Starting 'docker-compose up' in background"
 
 	# start docker-compose if it is not running
 	if [ -f docker-compose.override.yml ]; then
