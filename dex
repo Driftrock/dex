@@ -23,7 +23,7 @@ if ( [ -z "$DOCKER_SYNC_PID" ] || ! kill -0 $DOCKER_SYNC_PID ); then
 	echo "Starting 'docker-sync' in background..."
 	DOCKER_SYNC_VERSION=$(docker-sync -v)
 
-	if ! ( echo $DOCKER_SYNC_VERSION | fgrep '0.2.' > /dev/null ); then
+	if ! ( echo $DOCKER_SYNC_VERSION | grep '^0\.[234]' > /dev/null ); then
 		echo "ERROR: Docker-sync version $DOCKER_SYNC_VERSION is not supported! Please install docker-sync 0.2.*."
 		exit 1
 	fi
@@ -38,7 +38,10 @@ if [ -z "$CONTAINER_RUNS_TEST" ]; then
 	# start docker-compose if it is not running
 	if [ -f docker-compose.override.yml ]; then
 		docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+	elif [ -f docker-compose.sync.yml ]; then
+		docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d
 	else
+		echo "WARNING: Starting docker-compose with default docker-compose.yml file"
 		docker-compose up -d
 	fi
 fi
