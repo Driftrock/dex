@@ -1,4 +1,11 @@
 #!/bin/bash
+SERVICE_NAME=$(cat .docker-compose-default-service | tr -d '[:space:]')
+
+if [ -z "$SERVICE_NAME" ]; then
+	echo "Configure default service name:"
+	echo "echo service-name > .docker-compose-default-service"
+	exit
+fi
 
 if [ "$1" = "--stop" ]; then
 	docker-compose stop
@@ -6,11 +13,12 @@ if [ "$1" = "--stop" ]; then
 	exit 0
 fi
 
-SERVICE_NAME=$(cat .docker-compose-default-service | tr -d '[:space:]')
-if [ -z "$SERVICE_NAME" ]; then
-	echo "Configure default service name:"
-	echo "echo service-name > .docker-compose-default-service"
-	exit
+if [ "$1" = "--cleanup" ]; then
+	docker-compose stop
+	docker-sync stop
+	docker-compose rm $SERVICE_NAME -f
+	docker-sync clean
+	exit 0
 fi
 
 # Lets assume the default project name derivated from dir name
