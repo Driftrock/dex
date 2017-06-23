@@ -56,4 +56,3 @@ fi
 
 # Run it using docker instead of docker-compose as it is much faster to bootstrap
 docker exec -it $COMPOSE_CONTAINER_NAME $@
-
