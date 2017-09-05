@@ -16,7 +16,7 @@ fi
 if [ "$1" = "--cleanup" ]; then
 	docker-compose stop
 	docker-sync stop
-	docker-compose rm $SERVICE_NAME -f
+	docker-compose rm -f $SERVICE_NAME
 	docker-sync clean
 	exit 0
 fi
