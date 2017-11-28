@@ -31,7 +31,7 @@ if ( [ -z "$DOCKER_SYNC_PID" ] || ! kill -0 $DOCKER_SYNC_PID ); then
 	echo "Starting 'docker-sync' in background..."
 	DOCKER_SYNC_VERSION=$(docker-sync -v)
 
-	if ! ( echo $DOCKER_SYNC_VERSION | grep '^0\.[234]' > /dev/null ); then
+	if ! ( echo $DOCKER_SYNC_VERSION | grep '^0\.[2345]' > /dev/null ); then
 		echo "ERROR: Docker-sync version $DOCKER_SYNC_VERSION is not supported! Please install docker-sync 0.2.*."
 		exit 1
 	fi
